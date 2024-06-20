@@ -7,6 +7,6 @@ const routes = Router();
 routes.get("/", controller.list);
 
 //aceita qualquer método HTTP ou URL
-routes.use( (_:Request,res:Response) => res.json({message:"Operação desconhecida com os campos"}) );
+routes.use( (_:Request,res:Response) => res.status(404).json({message:"Operação desconhecida com os campos"}) );
 
 export default routes;

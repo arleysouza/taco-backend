@@ -10,6 +10,6 @@ routes.use("/category", category);
 routes.use("/field", field);
 
 //aceita qualquer método HTTP ou URL
-routes.use( (_:Request,res:Response) => res.json({message:"Requisição desconhecida"}) );
+routes.use( (_:Request,res:Response) => res.status(404).json({message:"Requisição desconhecida"}) );
 
 export default routes;
