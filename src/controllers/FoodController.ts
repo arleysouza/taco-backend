@@ -22,7 +22,7 @@ class FoodController {
           res.json({ items });
         }
       } catch (e: any) {
-        res.status(502).json({ error: e.message });
+        res.status(502).json({ message: e.message });
       }
     }
   }
@@ -47,7 +47,7 @@ class FoodController {
           res.json({ items: queryTerm });
         }
       } catch (e: any) {
-        res.status(502).json({ error: e.message });
+        res.status(502).json({ message: e.message });
       }
     }
   }
@@ -101,7 +101,7 @@ class FoodController {
           .json({ error: "Problemas ao obter a quantidade de registros" });
       }
     } catch (e: any) {
-      res.status(502).json({ error: e.message });
+      res.status(502).json({ message: e.message });
     }
   }
 
@@ -134,40 +134,6 @@ class FoodController {
       return formattedItem;
     });
 
-
-    /*const results = foods.map((food: any) => ({
-      id: food.id,
-      description: food.description,
-      moisture: food.moisture,
-      energy: food.energy, 
-      protein: food.protein, 
-      lipids: food.lipids, 
-      cholesterol: food.cholesterol, 
-      carbohydrate: food.carbohydrate, 
-      dietary_fiber: food.dietary_fiber, 
-      ash: food.ash, 
-      calcium: food.calcium, 
-      magnesium: food.magnesium, 
-      manganese: food.manganese, 
-      phosphorus: food.phosphorus, 
-      iron: food.iron, 
-      sodium: food.sodium, 
-      potassium: food.potassium, 
-      copper: food.copper, 
-      zinc: food.zinc, 
-      retinol: food.retinol, 
-      re: food.re, 
-      era: food.era, 
-      thiamin: food.thiamin, 
-      riboflavin: food.riboflavin, 
-      pyridoxine: food.pyridoxine, 
-      niacin: food.niacin, 
-      vitamin_c: food.vitamin_c,
-      category: {
-        id: food.idcategory,
-        name: food.category,
-      },
-    }));*/
     return results;
   }
 }

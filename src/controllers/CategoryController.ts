@@ -9,7 +9,7 @@ class CategoryController {
       );
       res.json(r);
     } catch (e: any) {
-      res.status(502).json({ error: e.message });
+      res.status(502).json({ message: e.message });
     }
   }
 }
