@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import query from "../database/connection";
-import fields from "./fields.json";
+import fields from "./fields";
 
 class FoodController {
   public listById = async (req: Request, res: Response): Promise<void> =>  {
@@ -18,8 +18,13 @@ class FoodController {
         if ("message" in queryFood) {
           res.status(500).json(queryFood);
         } else {
-          const items = await this.formattedResult(queryFood);
-          res.json({ items });
+          if( queryFood.length === 1){
+            const items = await this.formattedResult(queryFood);
+            res.json(items[0]);
+          }
+          else{
+            res.status(502).json({ message: "Alimento não catalogado" });
+          }
         }
       } catch (e: any) {
         res.status(502).json({ message: e.message });
@@ -44,7 +49,7 @@ class FoodController {
         if ("message" in queryTerm) {
           res.status(500).json(queryTerm);
         } else {
-          res.json({ items: queryTerm });
+          res.json({ items: queryTerm, total:queryTerm.length, page:1, pagesize:queryTerm.length });
         }
       } catch (e: any) {
         res.status(502).json({ message: e.message });
@@ -81,9 +86,8 @@ class FoodController {
         // obtém o offset
         const offset = (page - 1) * pagesize;
         const queryFoods: any = await query(
-          `SELECT A.id::varchar, B.id::varchar as idcategory, B.name as "category", A.description, moisture, energy, protein, lipids, cholesterol, carbohydrate, dietary_fiber, ash, calcium, magnesium, manganese, phosphorus, iron, sodium, potassium, copper, zinc, retinol, re, era, thiamin, riboflavin, pyridoxine, niacin, vitamin_c
-            FROM foods as A, categories as B
-            WHERE A.category = B.id
+          `SELECT id::varchar, description
+            FROM foods
             ORDER BY description
             LIMIT $1 
             OFFSET $2`,
@@ -92,8 +96,7 @@ class FoodController {
         if ("message" in queryFoods) {
           res.status(500).json(queryFoods);
         } else {
-          const items = await this.formattedResult(queryFoods);
-          res.json({ items, total, page, pagesize });
+          res.json({ items:queryFoods, total, page, pagesize });
         }
       } else {
         res
